@@ -12,6 +12,8 @@
 #import "OSKActivity_ManagedAccounts.h"
 #import "OSKActivity_GenericAuthentication.h"
 
-@interface OSKAppDotNetActivity : OSKActivity <OSKMicrobloggingActivity, OSKActivity_ManagedAccounts>
+extern NSString *OSK_ADNAccessToken;
+
+@interface OSKAppDotNetActivity : OSKActivity <OSKMicrobloggingActivity>
 
 @end

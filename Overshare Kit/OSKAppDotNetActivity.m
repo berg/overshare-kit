@@ -16,48 +16,27 @@
 #import "OSKLogger.h"
 #import "OSKManagedAccount.h"
 #import "OSKShareableContentItem.h"
+#import "OSKApplicationCredential.h"
+#import "OSKManagedAccountCredential.h"
 
 static NSInteger OSKAppDotNetActivity_MaxCharacterCount = 256;
 static NSInteger OSKAppDotNetActivity_MaxUsernameLength = 20;
 static NSInteger OSKAppDotNetActivity_MaxImageCount = 4;
 
-@interface OSKAppDotNetActivity ()
+// I am going to hell for this.
+NSString *OSK_ADNAccessToken = nil;
 
-@property (strong, nonatomic) NSTimer *authenticationTimeoutTimer;
-@property (assign, nonatomic) BOOL authenticationTimedOut;
-@property (copy, nonatomic) OSKManagedAccountAuthenticationHandler completionHandler;
+@interface OSKAppDotNetActivity ()
 
 @end
 
 @implementation OSKAppDotNetActivity
-
-@synthesize activeManagedAccount = _activeManagedAccount;
 
 - (instancetype)initWithContentItem:(OSKShareableContentItem *)item {
     self = [super initWithContentItem:item];
     if (self) {
     }
     return self;
-}
-
-- (void)dealloc {
-    [self cancelAuthenticationTimeoutTimer];
-}
-
-#pragma mark - System Account Methods
-
-+ (OSKManagedAccountAuthenticationViewControllerType)authenticationViewControllerType {
-    OSKManagedAccountAuthenticationViewControllerType method;
-    if ([[OSKADNLoginManager sharedInstance] loginAvailable]) {
-        method = OSKManagedAccountAuthenticationViewControllerType_None;
-    } else {
-        method = OSKManagedAccountAuthenticationViewControllerType_OneOfAKindCustomBespokeViewController;
-    }
-    return method;
-}
-
-- (void)authenticateNewAccountWithoutViewController:(OSKManagedAccountAuthenticationHandler)completion {
-    [self authenticateWithADNLogin:completion];
 }
 
 #pragma mark - Methods for OSKActivity Subclasses
@@ -93,27 +72,29 @@ static NSInteger OSKAppDotNetActivity_MaxImageCount = 4;
 }
 
 + (OSKAuthenticationMethod)authenticationMethod {
-    return OSKAuthenticationMethod_ManagedAccounts;
+    return OSKAuthenticationMethod_None;
 }
 
 + (BOOL)requiresApplicationCredential {
     return YES;
 }
 
+- (OSKManagedAccountCredential *)credential {
+	return [[OSKManagedAccountCredential alloc] initWithOvershareAccountIdentifier:@"ADN" accessToken:OSK_ADNAccessToken];
+}
+
 + (OSKPublishingViewControllerType)publishingViewControllerType {
     return OSKPublishingViewControllerType_Microblogging;
 }
 
++ (OSKApplicationCredential *)applicationCredential {
+	return [[OSKApplicationCredential alloc] initWithOvershareApplicationKey:@"ADNlol" applicationSecret:@"lol" appName:@"App.net for iPhone"];
+}
+
 - (BOOL)isReadyToPerform {
-    BOOL appCredentialPreset = ([self.class applicationCredential] != nil);
-    BOOL credentialPresent = (self.activeManagedAccount.credential != nil);
-    BOOL accountPresent = (self.activeManagedAccount != nil);
-    
     OSKMicroblogPostContentItem *contentItem = (OSKMicroblogPostContentItem *)self.contentItem;
     NSInteger maxCharacterCount = [self maximumCharacterCount];
-    BOOL textIsValid = (contentItem.text.length > 0 && contentItem.text.length <= maxCharacterCount);
-    
-    return (appCredentialPreset && credentialPresent && accountPresent && textIsValid);
+    return (contentItem.text.length > 0 && contentItem.text.length <= maxCharacterCount);
 }
 
 - (void)performActivity:(OSKActivityCompletionHandler)completion {
@@ -121,7 +102,7 @@ static NSInteger OSKAppDotNetActivity_MaxImageCount = 4;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [OSKAppDotNetUtility
          postContentItem:(OSKMicroblogPostContentItem *)weakSelf.contentItem
-         withCredential:weakSelf.activeManagedAccount.credential
+         withCredential:weakSelf.credential
          appCredential:[weakSelf.class applicationCredential]
          completion:^(BOOL success, NSError *error) {
              OSKLog(@"Success! Sent new post to App.net.");
@@ -159,53 +140,4 @@ static NSInteger OSKAppDotNetActivity_MaxImageCount = 4;
     return OSKAppDotNetActivity_MaxUsernameLength;
 }
 
-#pragma mark - ADNLogin
-
-- (void)authenticateWithADNLogin:(OSKManagedAccountAuthenticationHandler)completion {
-    __weak OSKAppDotNetActivity *weakSelf = self;
-    [[OSKADNLoginManager sharedInstance] loginWithScopes:@[@"basic",@"write_post"] withCompletion:^(NSString *userID, NSString *token, NSError *error) {
-        if (weakSelf.authenticationTimedOut == NO && completion) {
-            OSKApplicationCredential *appCredential = [[OSKActivitiesManager sharedInstance] applicationCredentialForActivityType:[weakSelf.class activityType]];
-            [OSKAppDotNetUtility createNewUserWithAccessToken:token appCredential:appCredential completion:^(OSKManagedAccount *account, NSError *error) {
-                completion(account, error);
-            }];
-        }
-    }];
-}
-
-#pragma mark - Authentication Timeout
-
-- (void)startAuthenticationTimeoutTimer {
-    NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:60*2]
-                                              interval:0
-                                                target:self
-                                              selector:@selector(authenticationTimedOut:)
-                                              userInfo:nil
-                                               repeats:NO];
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-
-}
-
-- (void)cancelAuthenticationTimeoutTimer {
-    [_authenticationTimeoutTimer invalidate];
-    _authenticationTimeoutTimer = nil;
-}
-
-- (void)authenticationTimedOut:(NSTimer *)timer {
-    [self setAuthenticationTimedOut:YES];
-    if (self.completionHandler) {
-        __weak OSKAppDotNetActivity *weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSError *error = [NSError errorWithDomain:@"OSKAppDotNetActivity" code:408 userInfo:@{NSLocalizedFailureReasonErrorKey:@"ADN authentication via the Passport app timed out."}];
-            weakSelf.completionHandler(nil, error);
-        });
-    }
-}
-
 @end
-
-
-
-
-
-
