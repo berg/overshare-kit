@@ -79,6 +79,10 @@ NSString *OSK_ADNAccessToken = nil;
     return YES;
 }
 
+- (OSKManagedAccount *)activeManagedAccount {
+    return [OSKManagedAccount new];
+}
+
 - (OSKManagedAccountCredential *)credential {
 	return [[OSKManagedAccountCredential alloc] initWithOvershareAccountIdentifier:@"ADN" accessToken:OSK_ADNAccessToken];
 }
