@@ -507,6 +507,7 @@
 				7FEE766B181ED867000F684A /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		7FEE766B181ED867000F684A /* Products */ = {
 			isa = PBXGroup;

@@ -601,6 +601,7 @@
 				7FEE7630181ED83D000F684A /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		7FEE7630181ED83D000F684A /* Products */ = {
 			isa = PBXGroup;
