@@ -109,6 +109,9 @@
     SLRequest *feedRequest = nil;
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"message": item.text.copy}];
+    if (item.url) {
+        [parameters setObject:[item.url absoluteString] forKey:@"link"];
+    }
     [parameters setObject:[self _queryParameterForAudience:options[ACFacebookAudienceKey]] forKey:@"privacy"];
     NSURL *feedURL = [NSURL URLWithString:@"https://graph.facebook.com/me/feed"];
     feedRequest = [SLRequest

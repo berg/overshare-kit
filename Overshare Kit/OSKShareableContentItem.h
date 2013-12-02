@@ -88,6 +88,14 @@ extern NSString * const OSKShareableContentItemType_AirDrop;
 @property (strong, nonatomic) NSArray *images;
 
 /**
+ An optional canonical URL for the primary content of the outgoing post.
+ 
+ @discussion As of December 2, 2013, only supported by the Facebook activity. Required for
+ Open Graph tags to appear in the post story's timeline. Will not be added to the body text.
+ */
+@property (copy, nonatomic) NSURL *url;
+
+/**
  The latitude component of the user's geolocation.
  */
 @property (nonatomic, assign) double latitude;
