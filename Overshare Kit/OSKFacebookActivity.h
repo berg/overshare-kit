@@ -9,11 +9,11 @@
 #import "OSKActivity.h"
 
 #import "OSKMicrobloggingActivity.h"
-#import "OSKActivity_SystemAccounts.h"
 
-@interface OSKFacebookActivity : OSKActivity <OSKMicrobloggingActivity, OSKActivity_SystemAccounts>
+@class FBShareDialogParams;
 
-// Defaults to ACFacebookAudienceEveryone. See ACAccountType.h for all options.
-@property (copy, nonatomic) NSString *currentAudience;
+@interface OSKFacebookActivity : OSKActivity <OSKMicrobloggingActivity>
+
+@property (strong, nonatomic) FBShareDialogParams *dialogParams;
 
 @end
