@@ -2,7 +2,7 @@
 //  OSKPresentationStyle.h
 //  Overshare
 //
-//  Created by Jared on 10/31/13.
+//  Created by Jared Sinclair 10/31/13.
 //  Copyright (c) 2013 Overshare Kit. All rights reserved.
 //
 
@@ -54,6 +54,28 @@ typedef NS_ENUM(NSInteger, OSKActivitySheetViewControllerStyle) {
  threshold (around 30 characters or more). Links are shortened via Bit.ly
  */
 - (BOOL)osk_automaticallyShortenURLsWhenRecommended;
+
+/**
+ OvershareKit will attempt to initialize all normal weight, user-facing fonts based on this alternate font descriptor if one is supplied.
+ Otherwise, default system fonts will be used.
+ */
+- (UIFontDescriptor *)osk_normalFontDescriptor;
+
+/**
+ OvershareKit will attempt to initialize all bold weight, user-facing fonts based on this alternate font descriptor if one is supplied.
+ Otherwise, default system fonts will be used.
+ */
+- (UIFontDescriptor *)osk_boldFontDescriptor;
+
+/**
+ Return the desired font size to be used in OvershareKit’s text views.
+ */
+- (CGFloat)osk_textViewFontSize;
+
+/**
+ Override this method to customize the appearance of OvershareKit modal navigation controllers prior to their presentation.
+ */
+- (void)osk_customizeNavigationControllerAppearance:(OSKNavigationController *)navigationController;
 
 @end
 

@@ -2,7 +2,7 @@
 //  OSKPresentationColor.h
 //  Overshare
 //
-//  Created by Jared on 10/31/13.
+//  Created by Jared Sinclair 10/31/13.
 //  Copyright (c) 2013 Overshare Kit. All rights reserved.
 //
 
@@ -22,6 +22,8 @@
 - (UIColor *)osk_color_opaqueBackground;
 - (UIColor *)osk_color_translucentBackground;
 - (UIColor *)osk_color_toolbarBackground;
+- (UIColor *)osk_color_toolbarText;
+- (UIColor *)osk_color_toolbarBorders;
 - (UIColor *)osk_color_groupedTableViewBackground;
 - (UIColor *)osk_color_groupedTableViewCells;
 - (UIColor *)osk_color_separators;

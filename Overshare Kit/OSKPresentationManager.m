@@ -33,7 +33,7 @@
 #import "OSKMessageComposeViewController.h"
 #import "OSKMailComposeViewController.h"
 #import "OSKNavigationController.h"
-
+#import "OSKPresentationManager_Protected.h"
 #import "UIViewController+OSKUtilities.h"
 #import "UIColor+OSKUtility.h"
 
@@ -42,6 +42,9 @@ NSString * const OSKPresentationOption_PresentationEndingHandler = @"OSKPresenta
 
 static CGFloat OSKPresentationManagerActivitySheetPresentationDuration = 0.3f;
 static CGFloat OSKPresentationManagerActivitySheetDismissalDuration = 0.16f;
+
+static NSInteger OSKTextViewFontSize_Phone = 16.0f;
+static NSInteger OSKTextViewFontSize_Pad = 19.0f;
 
 @interface OSKPresentationManager ()
 <
@@ -398,6 +401,36 @@ willRepositionPopoverToRect:(inout CGRect *)rect
     return shorten;
 }
 
+- (UIFontDescriptor *)normalFontDescriptor {
+    UIFontDescriptor *descriptor = nil;
+    if ([self.styleDelegate respondsToSelector:@selector(osk_normalFontDescriptor)]) {
+        descriptor = [self.styleDelegate osk_normalFontDescriptor];
+    }
+    return descriptor;
+}
+
+- (UIFontDescriptor *)boldFontDescriptor {
+    UIFontDescriptor *descriptor = nil;
+    if ([self.styleDelegate respondsToSelector:@selector(osk_boldFontDescriptor)]) {
+        descriptor = [self.styleDelegate osk_boldFontDescriptor];
+    }
+    return descriptor;
+}
+
+- (CGFloat)textViewFontSize {
+    CGFloat fontSize;
+    if ([self.styleDelegate respondsToSelector:@selector(osk_textViewFontSize)]) {
+        fontSize = [self.styleDelegate osk_textViewFontSize];
+    } else {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            fontSize = OSKTextViewFontSize_Phone;
+        } else {
+            fontSize = OSKTextViewFontSize_Pad;
+        }
+    }
+    return fontSize;
+}
+
 #pragma mark - Colors
 
 - (UIColor *)color_activitySheetTopLine {
@@ -458,6 +491,38 @@ willRepositionPopoverToRect:(inout CGRect *)rect
         }
     }
     return color;
+}
+
+- (UIColor *)color_toolbarText {
+    UIColor *color;
+    if ([self.colorDelegate respondsToSelector:@selector(osk_color_toolbarText)]) {
+        color = [self.colorDelegate osk_color_toolbarText];
+    } else {
+        OSKActivitySheetViewControllerStyle style = [self sheetStyle];
+        if (style == OSKActivitySheetViewControllerStyle_Light) {
+            color = OSKDefaultColor_LightStyle_TextColor;
+        } else {
+            color = OSKDefaultColor_DarkStyle_TextColor;
+        }
+    }
+    return color;
+}
+
+- (UIColor *)color_toolbarBorders {
+    UIColor *lineColor = nil;
+    if ([self.colorDelegate respondsToSelector:@selector(osk_color_toolbarBorders)]) {
+        lineColor = [self.colorDelegate osk_color_toolbarBorders];
+    } else {
+        UIColor *backgroundColor = [self color_toolbarBackground];
+        UIColor *contrastingColor = [backgroundColor osk_contrastingColor]; // either b or w
+        OSKActivitySheetViewControllerStyle style = [self sheetStyle];
+        if (style == OSKActivitySheetViewControllerStyle_Light) {
+            lineColor = [contrastingColor osk_colorByInterpolatingToColor:backgroundColor byFraction:0.90];
+        } else {
+            lineColor = [contrastingColor osk_colorByInterpolatingToColor:backgroundColor byFraction:0.90];
+        }
+    }
+    return lineColor;
 }
 
 - (UIColor *)color_groupedTableViewBackground {
@@ -769,7 +834,7 @@ willRepositionPopoverToRect:(inout CGRect *)rect
         text = [self.localizationDelegate osk_localizedText_YouCanSignIntoYourAccountsViaTheSettingsApp];
     }
     if (text == nil) {
-        text = @"You can sign into your accounts via the settings app.";
+        text = @"You can sign into system accounts like Twitter and Facebook via the settings app.";
     }
     return text;
 }
@@ -869,6 +934,17 @@ willRepositionPopoverToRect:(inout CGRect *)rect
     }
     if (text == nil) {
         text = @"Audience";
+    }
+    return text;
+}
+
+- (NSString *)localizedText_OptionalActivities {
+    NSString *text = nil;
+    if ([self.localizationDelegate respondsToSelector:@selector(osk_localizedText_OptionalActivities)]) {
+        text = [self.localizationDelegate osk_localizedText_OptionalActivities];
+    }
+    if (text == nil) {
+        text = @"Visible Activities";
     }
     return text;
 }
@@ -1026,6 +1102,18 @@ willPresentViewController:(UIViewController *)viewController
             OSKActivity *selectedActivity = controller.activity;
             session.presentationEndingHandler(OSKPresentationEnding_Cancelled, selectedActivity);
         }
+    }
+}
+
+#pragma mark - Protected
+
+- (BOOL)_navigationControllersShouldManageTheirOwnAppearanceCustomization {
+    return ![self.styleDelegate respondsToSelector:@selector(osk_customizeNavigationControllerAppearance:)];
+}
+
+- (void)_customizeNavigationControllerAppearance:(OSKNavigationController *)navigationController {
+    if ([self.styleDelegate respondsToSelector:@selector(osk_customizeNavigationControllerAppearance:)]) {
+        [self.styleDelegate osk_customizeNavigationControllerAppearance:navigationController];
     }
 }
 

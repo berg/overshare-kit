@@ -61,7 +61,8 @@
     self.tableView.separatorColor = presentationManager.color_separators;
     [self.tableView registerClass:[OSKUsernamePasswordCell class] forCellReuseIdentifier:OSKUsernamePasswordCellIdentifier];
     self.navigationItem.rightBarButtonItem = [self doneButtonItem];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
+    NSString *cancelTitle = [[OSKPresentationManager sharedInstance] localizedText_Cancel];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:cancelTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
     [self updateDoneButton];
 }
 
@@ -115,6 +116,10 @@
             cell.backgroundColor = [presentationManager color_groupedTableViewCells];
             cell.selectedBackgroundView = [[UIView alloc] init];
             cell.selectedBackgroundView.backgroundColor = [presentationManager color_cancelButtonColor_BackgroundHighlighted];
+            UIFontDescriptor *descriptor = [[OSKPresentationManager sharedInstance] normalFontDescriptor];
+            if (descriptor) {
+                [cell.textLabel setFont:[UIFont fontWithDescriptor:descriptor size:17]];
+            }
         }
     }
     return cell;
@@ -157,7 +162,10 @@
 }
 
 - (OSKActivityIndicatorItem *)spinnerViewItem {
-    return [OSKActivityIndicatorItem item];
+    UIActivityIndicatorViewStyle style = (self.navigationController.navigationBar.barStyle == UIBarStyleBlack)
+                                        ? UIActivityIndicatorViewStyleWhite
+                                        : UIActivityIndicatorViewStyleGray;
+    return [OSKActivityIndicatorItem item:style];
 }
 
 - (void)setIsAttemptingSignIn:(BOOL)isAttemptingSignIn {

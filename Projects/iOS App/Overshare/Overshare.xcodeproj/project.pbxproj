@@ -21,6 +21,7 @@
 		7F19F9271820442800E5EA52 /* OSKFacebookUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F19F9261820442800E5EA52 /* OSKFacebookUtility.m */; };
 		7F19F92A1820A34F00E5EA52 /* OSKAccountManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F19F9291820A34F00E5EA52 /* OSKAccountManagementViewController.m */; };
 		7F1DA9E3183C6B280082356D /* OSKLinkShorteningUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1DA9E2183C6B280082356D /* OSKLinkShorteningUtility.m */; };
+		7F339D72185361AF0020CF9C /* Chrome-Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F339D71185361AF0020CF9C /* Chrome-Icon-29.png */; };
 		7F43DEAD18215916003BE9B6 /* SampleTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F43DEAC18215916003BE9B6 /* SampleTimelineViewController.m */; };
 		7F43DEB01821596D003BE9B6 /* SampleTimelineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F43DEAF1821596D003BE9B6 /* SampleTimelineCell.m */; };
 		7F43DEB21821597E003BE9B6 /* SampleTimelineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F43DEB11821597E003BE9B6 /* SampleTimelineCell.xib */; };
@@ -46,6 +47,7 @@
 		7F77F4391822FAC60019452C /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F77F4371822FAC60019452C /* Icon-76.png */; };
 		7F77F43A1822FAC60019452C /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F77F4381822FAC60019452C /* Icon-76@2x.png */; };
 		7F78E9AC1820E5630042CF02 /* OSKPocketAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F78E9AB1820E5630042CF02 /* OSKPocketAccountViewController.m */; };
+		7FCD027F18539735005C5931 /* OSKActivityToggleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FCD027E18539735005C5931 /* OSKActivityToggleCell.m */; };
 		7FDCDE96181EE1BA00AC2985 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FDCDE8E181EE1BA00AC2985 /* Icon-60@2x.png */; };
 		7FDCDE97181EE1BA00AC2985 /* rain.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FDCDE8F181EE1BA00AC2985 /* rain.jpg */; };
 		7FDCDE9A181EE1BA00AC2985 /* soda.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FDCDE93181EE1BA00AC2985 /* soda.jpg */; };
@@ -238,6 +240,7 @@
 		7F19F9291820A34F00E5EA52 /* OSKAccountManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSKAccountManagementViewController.m; sourceTree = "<group>"; };
 		7F1DA9E1183C6B280082356D /* OSKLinkShorteningUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKLinkShorteningUtility.h; sourceTree = "<group>"; };
 		7F1DA9E2183C6B280082356D /* OSKLinkShorteningUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSKLinkShorteningUtility.m; sourceTree = "<group>"; };
+		7F339D71185361AF0020CF9C /* Chrome-Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Chrome-Icon-29.png"; sourceTree = "<group>"; };
 		7F43DEAB18215916003BE9B6 /* SampleTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTimelineViewController.h; sourceTree = "<group>"; };
 		7F43DEAC18215916003BE9B6 /* SampleTimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTimelineViewController.m; sourceTree = "<group>"; };
 		7F43DEAE1821596D003BE9B6 /* SampleTimelineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTimelineCell.h; sourceTree = "<group>"; };
@@ -249,6 +252,7 @@
 		7F43DEB718217986003BE9B6 /* OSKFacebookPublishingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OSKFacebookPublishingViewController.xib; sourceTree = "<group>"; };
 		7F43DEBA1821804C003BE9B6 /* OSKFacebookAudienceChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKFacebookAudienceChooserViewController.h; sourceTree = "<group>"; };
 		7F43DEBB1821804C003BE9B6 /* OSKFacebookAudienceChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSKFacebookAudienceChooserViewController.m; sourceTree = "<group>"; };
+		7F4FF50F18516A6D00BFFF2B /* OSKPresentationManager_Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKPresentationManager_Protected.h; sourceTree = "<group>"; };
 		7F55A2F718425C46004A3BCC /* OSKSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKSession.h; sourceTree = "<group>"; };
 		7F55A2F818425C46004A3BCC /* OSKSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSKSession.m; sourceTree = "<group>"; };
 		7F55A2F918425C46004A3BCC /* OSKSessionController_Pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKSessionController_Pad.h; sourceTree = "<group>"; };
@@ -281,6 +285,8 @@
 		7F77F4381822FAC60019452C /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
 		7F78E9AA1820E5630042CF02 /* OSKPocketAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKPocketAccountViewController.h; sourceTree = "<group>"; };
 		7F78E9AB1820E5630042CF02 /* OSKPocketAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSKPocketAccountViewController.m; sourceTree = "<group>"; };
+		7FCD027D18539735005C5931 /* OSKActivityToggleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKActivityToggleCell.h; sourceTree = "<group>"; };
+		7FCD027E18539735005C5931 /* OSKActivityToggleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSKActivityToggleCell.m; sourceTree = "<group>"; };
 		7FDCDE8E181EE1BA00AC2985 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
 		7FDCDE8F181EE1BA00AC2985 /* rain.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = rain.jpg; sourceTree = "<group>"; };
 		7FDCDE93181EE1BA00AC2985 /* soda.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = soda.jpg; sourceTree = "<group>"; };
@@ -707,6 +713,7 @@
 				7FE467241821E9650054D2BC /* osk-readabilityIcon-76.png */,
 				7FE467251821E9650054D2BC /* osk-readabilityIcon-76@2x.png */,
 				7FE466D31821C9F20054D2BC /* 1Password-Icon-60@2x.png */,
+				7F339D71185361AF0020CF9C /* Chrome-Icon-29.png */,
 				7FE466D41821C9F20054D2BC /* Chrome-Icon-29@2x.png */,
 				7FE466D51821C9F20054D2BC /* Chrome-Icon-76@2x.png */,
 				7FE466D61821C9F20054D2BC /* Instapaper-Icon-29@2x.png */,
@@ -900,6 +907,8 @@
 				7F78E9AB1820E5630042CF02 /* OSKPocketAccountViewController.m */,
 				7FE467371821F4010054D2BC /* OSKAccountTypeCell.h */,
 				7FE467381821F4010054D2BC /* OSKAccountTypeCell.m */,
+				7FCD027D18539735005C5931 /* OSKActivityToggleCell.h */,
+				7FCD027E18539735005C5931 /* OSKActivityToggleCell.m */,
 			);
 			name = "Account Management";
 			sourceTree = "<group>";
@@ -1053,6 +1062,7 @@
 			children = (
 				7FEE7737181ED8EE000F684A /* OSKPresentationManager.h */,
 				7FEE7738181ED8EE000F684A /* OSKPresentationManager.m */,
+				7F4FF50F18516A6D00BFFF2B /* OSKPresentationManager_Protected.h */,
 				7FFCFFE41822C3D1000BBCE9 /* OSKPresentationStyle.h */,
 				7FFCFFE51822C3DA000BBCE9 /* OSKPresentationColor.h */,
 				7FFCFFE61822C3E2000BBCE9 /* OSKPresentationLocalization.h */,
@@ -1359,6 +1369,7 @@
 				7FEE7773181ED8EF000F684A /* osk-copyIcon-purple-60@2x.png in Resources */,
 				7F77F4301822F7FC0019452C /* Pocket-Icon-29.png in Resources */,
 				7F77F4261822F60B0019452C /* osk-iconMask-bw-29.png in Resources */,
+				7F339D72185361AF0020CF9C /* Chrome-Icon-29.png in Resources */,
 				7F77F4391822FAC60019452C /* Icon-76.png in Resources */,
 				7FEE777C181ED8EF000F684A /* osk-iconMask-bw-76@2x.png in Resources */,
 				7F19F907181F4C0A00E5EA52 /* osk-iap-badge-60.png in Resources */,
@@ -1479,6 +1490,7 @@
 				7FEE77BC181ED8EF000F684A /* OSKMessageComposeViewController.m in Sources */,
 				7FEE77BA181ED8EF000F684A /* OSKManagedAccountCredential.m in Sources */,
 				7F75BF321821587E00D3681E /* ADNPassportLaunchView.m in Sources */,
+				7FCD027F18539735005C5931 /* OSKActivityToggleCell.m in Sources */,
 				7FEE778C181ED8EF000F684A /* NSData+OSKDerp.m in Sources */,
 				7F75BF311821587E00D3681E /* ADNLogin.m in Sources */,
 				7FEE77D0181ED8EF000F684A /* OSKThingsActivity.m in Sources */,

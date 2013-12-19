@@ -2,7 +2,7 @@
 //  OSKPocketAccountViewController.h
 //  Overshare
 //
-//  Created by Jared on 10/30/13.
+//  Created by Jared Sinclair 10/30/13.
 //  Copyright (c) 2013 Overshare Kit. All rights reserved.
 //
 
@@ -60,6 +60,10 @@
         cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds];
         cell.selectedBackgroundView.backgroundColor = presentationManager.color_cancelButtonColor_BackgroundHighlighted;
         cell.tintColor = presentationManager.color_action;
+        UIFontDescriptor *descriptor = [[OSKPresentationManager sharedInstance] normalFontDescriptor];
+        if (descriptor) {
+            [cell.textLabel setFont:[UIFont fontWithDescriptor:descriptor size:17]];
+        }
     }
     
     NSString *title = nil;
