@@ -299,7 +299,7 @@
 
 - (void)updateAudienceButton {
     NSString *audienceName = nil;
-    NSString *audienceKey = [self.activity currentAudience];
+    NSString *audienceKey = nil; //[self.activity currentAudience];
     if ([audienceKey isEqualToString:ACFacebookAudienceEveryone]) {
         audienceName = @"Public";
     }
@@ -335,15 +335,15 @@
 }
 
 - (void)showAudienceChooser {
-    OSKFacebookAudienceChooserViewController *chooser = [[OSKFacebookAudienceChooserViewController alloc]
-                                                         initWithSelectedAudience:self.activity.currentAudience
-                                                         delegate:self];
-    [self.navigationController pushViewController:chooser animated:YES];
+//    OSKFacebookAudienceChooserViewController *chooser = [[OSKFacebookAudienceChooserViewController alloc]
+//                                                         initWithSelectedAudience:self.activity.currentAudience
+//                                                         delegate:self];
+//    [self.navigationController pushViewController:chooser animated:YES];
 }
 
 - (void)setNewCurrentAudience:(NSString *)audience {
-    [self.activity setCurrentAudience:audience];
-    [self updateAudienceButton];
+//    [self.activity setCurrentAudience:audience];
+//    [self updateAudienceButton];
 }
 
 #pragma mark - Button Actions
@@ -364,8 +364,8 @@
 #pragma mark - Account Chooser Delegate
 
 - (void)accountChooserDidSelectSystemAccount:(ACAccount *)systemAccount {
-    [self.activity setActiveSystemAccount:systemAccount];
-    [self updateAccountButton];
+//    [self.activity setActiveSystemAccount:systemAccount];
+//    [self updateAccountButton];
 }
 
 #pragma mark - Audience Chooser Delegate
