@@ -12,11 +12,6 @@
 #import <Facebook-iOS-SDK/FacebookSDK/FacebookSDK.h>
 #import "NSString+OSKEmoji.h"
 
-static NSInteger OSKFacebookActivity_MaxCharacterCount = 6000;
-static NSInteger OSKFacebookActivity_MaxUsernameLength = 20;
-static NSInteger OSKFacebookActivity_MaxImageCount = 3;
-static NSString * OSKFacebookActivity_PreviousAudienceKey = @"OSKFacebookActivity_PreviousAudienceKey";
-
 @implementation OSKFacebookActivity
 
 - (instancetype)initWithContentItem:(OSKShareableContentItem *)item {
@@ -69,7 +64,7 @@ static NSString * OSKFacebookActivity_PreviousAudienceKey = @"OSKFacebookActivit
 
 - (FBShareDialogParams *)paramsForContentItem {
     FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
-    params.link = ((OSKMicroblogPostContentItem *)self.contentItem).url;
+    params.link = ((OSKFacebookContentItem *)self.contentItem).link;
 
     return params;
 }
@@ -111,35 +106,6 @@ static NSString * OSKFacebookActivity_PreviousAudienceKey = @"OSKFacebookActivit
 
 - (OSKActivityOperation *)operationForActivityWithCompletion:(OSKActivityCompletionHandler)completion {
     return nil;
-}
-
-#pragma mark - Facebook Sharing Protocol
-
-- (NSInteger)maximumCharacterCount {
-    return OSKFacebookActivity_MaxCharacterCount;
-}
-
-- (NSInteger)maximumImageCount {
-    return OSKFacebookActivity_MaxImageCount;
-}
-
-- (OSKSyntaxHighlighting)syntaxHighlighting {
-    return OSKSyntaxHighlighting_Links | OSKSyntaxHighlighting_Hashtags;
-}
-
-- (NSInteger)maximumUsernameLength {
-    return OSKFacebookActivity_MaxUsernameLength;
-}
-
-- (NSInteger)updateRemainingCharacterCount:(OSKFacebookContentItem *)contentItem urlEntities:(NSArray *)urlEntities {
-    
-    NSString *text = contentItem.text;
-    NSInteger composedLength = [text osk_lengthAdjustingForComposedCharacters];
-    NSInteger remainingCharacterCount = [self maximumCharacterCount] - composedLength;
-    
-    [self setRemainingCharacterCount:remainingCharacterCount];
-    
-    return remainingCharacterCount;
 }
 
 - (BOOL)allowLinkShortening {

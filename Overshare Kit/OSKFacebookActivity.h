@@ -12,7 +12,7 @@
 
 @class FBShareDialogParams;
 
-@interface OSKFacebookActivity : OSKActivity <OSKFacebookSharing>
+@interface OSKFacebookActivity : OSKActivity
 
 @property (strong, nonatomic) FBShareDialogParams *dialogParams;
 

@@ -19,7 +19,6 @@
 #import "OSKAirDropViewController.h"
 #import "OSKAppDotNetAuthenticationViewController.h"
 #import "OSKApplicationCredential.h"
-#import "OSKFacebookPublishingViewController.h"
 #import "OSKLogger.h"
 #import "OSKMicroblogPublishingViewController.h"
 #import "OSKPublishingViewController.h"
@@ -1102,10 +1101,6 @@ willRepositionPopoverToRect:(inout CGRect *)rect
                 else if ([activity.contentItem.itemType isEqualToString:OSKShareableContentItemType_AirDrop]) {
                     viewController = [[OSKAirDropViewController alloc] initWithAirDropItem:(OSKAirDropContentItem *)activity.contentItem];
                 }
-            } break;
-            case OSKPublishingMethod_ViewController_Facebook: {
-                NSString *nibName = NSStringFromClass([OSKFacebookPublishingViewController class]);
-                viewController = [[OSKFacebookPublishingViewController alloc] initWithNibName:nibName bundle:nil];
             } break;
             case OSKPublishingMethod_ViewController_Bespoke: {
                 NSAssert(NO, @"OSKPresentationManager: Activities with a bespoke publishing view controller require the OSKPresentationManager's delegate to vend the appropriate publishing view controller via osk_publishingViewControllerForActivity:");
