@@ -19,5 +19,5 @@ Pod::Spec.new do |s|
   
   s.dependency 'ADNLogin'
   s.dependency 'PocketAPI'
-  s.dependency 'Facebook-iOS-SDK', '~>3.10.0'
+  s.dependency 'Facebook-iOS-SDK'
 end
