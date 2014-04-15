@@ -18,6 +18,7 @@
 #import "OSKShareableContentItem.h"
 #import "OSKApplicationCredential.h"
 #import "OSKManagedAccountCredential.h"
+#import "NSString+OSKEmoji.h"
 
 static NSInteger OSKAppDotNetActivity_MaxCharacterCount = 256;
 static NSInteger OSKAppDotNetActivity_MaxUsernameLength = 20;
@@ -31,6 +32,8 @@ NSString *OSK_ADNAccessToken = nil;
 @end
 
 @implementation OSKAppDotNetActivity
+
+@synthesize remainingCharacterCount = _remainingCharacterCount;
 
 - (instancetype)initWithContentItem:(OSKShareableContentItem *)item {
     self = [super initWithContentItem:item];
@@ -87,8 +90,8 @@ NSString *OSK_ADNAccessToken = nil;
 	return [[OSKManagedAccountCredential alloc] initWithOvershareAccountIdentifier:@"ADN" accessToken:OSK_ADNAccessToken];
 }
 
-+ (OSKPublishingViewControllerType)publishingViewControllerType {
-    return OSKPublishingViewControllerType_Microblogging;
++ (OSKPublishingMethod)publishingMethod {
+    return OSKPublishingMethod_ViewController_Microblogging;
 }
 
 + (OSKApplicationCredential *)applicationCredential {
@@ -96,9 +99,8 @@ NSString *OSK_ADNAccessToken = nil;
 }
 
 - (BOOL)isReadyToPerform {
-    OSKMicroblogPostContentItem *contentItem = (OSKMicroblogPostContentItem *)self.contentItem;
     NSInteger maxCharacterCount = [self maximumCharacterCount];
-    return (contentItem.text.length > 0 && contentItem.text.length <= maxCharacterCount);
+    return (0 <= self.remainingCharacterCount && self.remainingCharacterCount < maxCharacterCount);
 }
 
 - (void)performActivity:(OSKActivityCompletionHandler)completion {
@@ -122,8 +124,7 @@ NSString *OSK_ADNAccessToken = nil;
 }
 
 - (OSKActivityOperation *)operationForActivityWithCompletion:(OSKActivityCompletionHandler)completion {
-    OSKActivityOperation *op = nil;
-    return op;
+    return nil;
 }
 
 #pragma mark - Microblogging Activity Protocol
@@ -136,12 +137,23 @@ NSString *OSK_ADNAccessToken = nil;
     return OSKAppDotNetActivity_MaxImageCount;
 }
 
-- (OSKMicroblogSyntaxHighlightingStyle)syntaxHighlightingStyle {
-    return OSKMicroblogSyntaxHighlightingStyle_Twitter;
+- (OSKSyntaxHighlighting)syntaxHighlighting {
+    return OSKSyntaxHighlighting_Hashtags | OSKSyntaxHighlighting_Links | OSKSyntaxHighlighting_Usernames;
 }
 
 - (NSInteger)maximumUsernameLength {
     return OSKAppDotNetActivity_MaxUsernameLength;
+}
+
+- (NSInteger)updateRemainingCharacterCount:(OSKMicroblogPostContentItem *)contentItem urlEntities:(NSArray *)urlEntities {
+    
+    NSString *text = contentItem.text;
+    NSInteger composedLength = [text osk_lengthAdjustingForComposedCharacters];
+    NSInteger remainingCharacterCount = [self maximumCharacterCount] - composedLength;
+    
+    [self setRemainingCharacterCount:remainingCharacterCount];
+    
+    return remainingCharacterCount;
 }
 
 @end

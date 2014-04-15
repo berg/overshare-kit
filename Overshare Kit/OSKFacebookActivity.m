@@ -10,10 +10,12 @@
 #import "OSKShareableContentItem.h"
 #import "OSKApplicationCredential.h"
 #import <Facebook-iOS-SDK/FacebookSDK/FacebookSDK.h>
+#import "NSString+OSKEmoji.h"
 
 static NSInteger OSKFacebookActivity_MaxCharacterCount = 6000;
 static NSInteger OSKFacebookActivity_MaxUsernameLength = 20;
 static NSInteger OSKFacebookActivity_MaxImageCount = 3;
+static NSString * OSKFacebookActivity_PreviousAudienceKey = @"OSKFacebookActivity_PreviousAudienceKey";
 
 @implementation OSKFacebookActivity
 
@@ -28,7 +30,7 @@ static NSInteger OSKFacebookActivity_MaxImageCount = 3;
 #pragma mark - Methods for OSKActivity Subclasses
 
 + (NSString *)supportedContentItemType {
-    return OSKShareableContentItemType_MicroblogPost;
+    return OSKShareableContentItemType_Facebook;
 }
 
 + (BOOL)isAvailable {
@@ -65,15 +67,15 @@ static NSInteger OSKFacebookActivity_MaxImageCount = 3;
     return NO;
 }
 
-+ (OSKPublishingViewControllerType)publishingViewControllerType {
-    return OSKPublishingViewControllerType_None;
-}
-
 - (FBShareDialogParams *)paramsForContentItem {
     FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
     params.link = ((OSKMicroblogPostContentItem *)self.contentItem).url;
 
     return params;
+}
+
++ (OSKPublishingMethod)publishingMethod {
+    return OSKPublishingMethod_None;
 }
 
 - (BOOL)isReadyToPerform {
@@ -82,16 +84,25 @@ static NSInteger OSKFacebookActivity_MaxImageCount = 3;
 
 - (void)performActivity:(OSKActivityCompletionHandler)completion {
     __weak OSKFacebookActivity *weakSelf = self;
-	[FBDialogs presentShareDialogWithParams:self.dialogParams clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-		BOOL successful = NO;
-		if ([results[@"didComplete"] boolValue] && [results[@"completionGesture"] isEqualToString:@"post"]) {
-			successful = YES;
-		}
 
-		if (completion) {
-			completion(weakSelf, successful, error);
-		}
-	}];
+    UIBackgroundTaskIdentifier backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        if (completion) {
+            completion(weakSelf, NO, nil);
+        }
+    }];
+
+    [FBDialogs presentShareDialogWithParams:self.dialogParams clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+        BOOL successful = NO;
+        if ([results[@"didComplete"] boolValue] && [results[@"completionGesture"] isEqualToString:@"post"]) {
+            successful = YES;
+        }
+
+        if (completion) {
+            completion(weakSelf, successful, error);
+        }
+
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskIdentifier];
+    }];
 }
 
 + (BOOL)canPerformViaOperation {
@@ -102,7 +113,7 @@ static NSInteger OSKFacebookActivity_MaxImageCount = 3;
     return nil;
 }
 
-#pragma mark - Microblogging Activity Protocol
+#pragma mark - Facebook Sharing Protocol
 
 - (NSInteger)maximumCharacterCount {
     return OSKFacebookActivity_MaxCharacterCount;
@@ -112,12 +123,27 @@ static NSInteger OSKFacebookActivity_MaxImageCount = 3;
     return OSKFacebookActivity_MaxImageCount;
 }
 
-- (OSKMicroblogSyntaxHighlightingStyle)syntaxHighlightingStyle {
-    return OSKMicroblogSyntaxHighlightingStyle_LinksOnly;
+- (OSKSyntaxHighlighting)syntaxHighlighting {
+    return OSKSyntaxHighlighting_Links | OSKSyntaxHighlighting_Hashtags;
 }
 
 - (NSInteger)maximumUsernameLength {
     return OSKFacebookActivity_MaxUsernameLength;
+}
+
+- (NSInteger)updateRemainingCharacterCount:(OSKFacebookContentItem *)contentItem urlEntities:(NSArray *)urlEntities {
+    
+    NSString *text = contentItem.text;
+    NSInteger composedLength = [text osk_lengthAdjustingForComposedCharacters];
+    NSInteger remainingCharacterCount = [self maximumCharacterCount] - composedLength;
+    
+    [self setRemainingCharacterCount:remainingCharacterCount];
+    
+    return remainingCharacterCount;
+}
+
+- (BOOL)allowLinkShortening {
+    return YES;
 }
 
 @end

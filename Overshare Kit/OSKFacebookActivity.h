@@ -7,12 +7,12 @@
 //
 
 #import "OSKActivity.h"
-
-#import "OSKMicrobloggingActivity.h"
+#import "OSKFacebookSharing.h"
+#import "OSKActivity_SystemAccounts.h"
 
 @class FBShareDialogParams;
 
-@interface OSKFacebookActivity : OSKActivity <OSKMicrobloggingActivity>
+@interface OSKFacebookActivity : OSKActivity <OSKFacebookSharing>
 
 @property (strong, nonatomic) FBShareDialogParams *dialogParams;
 
